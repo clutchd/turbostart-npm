@@ -5,6 +5,10 @@ branding:
   color: red
 runs:
   using: composite
+  env:
+    TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+    TURBO_TEAM: ${{ vars.TURBO_TEAM }}
+
   steps:
     - name: Checkout Repo
       uses: actions/checkout@v3.5.3
@@ -12,13 +16,6 @@ runs:
     - name: Setup Node.js
       uses: actions/setup-node@v3.6.0
 
-    - name: Clean Install Dependencies
+    - name: Install Dependencies
       shell: bash
       run: npm ci --ignore-scripts
-
-    - name: Cache Dependencies
-      uses: actions/cache@v3.2.4
-      with:
-        path: ~/.npm
-        key: npm-${{ hashFiles('package-lock.json') }}
-        restore-keys: npm-
